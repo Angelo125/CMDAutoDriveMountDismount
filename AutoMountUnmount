@@ -1,0 +1,29 @@
+@echo off
+CLS
+Color A
+REM ************************ Drive Parameters ************************
+Set Drive=D:
+Set Volume=\\?\Volume{d4c65b87-e08e-44d4-b5b7-8a677426b399}\
+Set Key=175725-531190-396000-277134-676599-118866-470833-448910
+
+REM ****************************************************************
+
+
+Echo.
+Echo ************************ Automatic Drive Mount/Unmount ************************ 
+Echo.
+If exist %Drive% (Goto :Unmount ) else (Goto :Mount)
+Echo.
+
+:Unmount
+mountvol %Drive% /p
+Echo Unmounting...
+Exit
+
+:Mount
+mountvol %Drive% %Volume%
+Echo Mounting...
+Echo.
+Manage-BDE -Unlock D: -RecoveryPassword %Key%
+Echo Unlocking drive...
+Exit
