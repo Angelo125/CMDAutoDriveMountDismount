@@ -13,7 +13,7 @@ Set DriveVolumeGUID=\\?\Volume{d4c65b87-e08e-44d4-b5b7-8a677426b399}\
 Set DriveNumber=1
 ::Run DiskPart and type "List Disk" to get drive number.
 
-Set BitLockerKey=175725-531190-396000-277134-676599-118866-470833-448910
+Set BitLockerKey=000000-000000-000000-000000-000000-000000-000000-000000
 ::This is the drive's BitLocker key
 
 ::***************************************************************************************
