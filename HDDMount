@@ -1,0 +1,57 @@
+@Echo off
+CLS
+Color A
+
+::********************************** Drive Parameters *********************************
+
+Set DriveLetter=D:
+::This is the assigned letter for the drive (see Disk Manager in Computer Management).
+
+Set DriveVolumeGUID=\\?\Volume{d4c65b87-e08e-44d4-b5b7-8a677426b399}\
+::Run CMD and type "MountVol" to list the GUID of available volumes
+
+Set DriveNumber=1
+::Run DiskPart and type "List Disk" to get drive number.
+
+Set BitLockerKey=175725-531190-396000-277134-676599-118866-470833-448910
+::This is the drive's BitLocker key
+
+::***************************************************************************************
+
+
+
+
+
+Echo.
+Echo *************************** Automatic Drive Mount/Unmount *************************** 
+Echo.
+If Exist %DriveLetter% (Goto :Unmount ) else (Goto :Mount)
+Echo.
+::**************************************** Unmount ***************************************
+:Unmount
+Echo Unmounting...
+MountVol %DriveLetter% /P
+Echo.
+Echo Turning disk offline...
+(
+Echo Select Disk %DriveNumber%
+Echo Offline Disk
+) > OfflineFunction
+Diskpart /S OfflineFunction
+Exit
+::***************************************** Mount ****************************************
+:Mount
+Echo Turning disk online...
+(
+Echo Select Disk %DriveNumber%
+Echo Online Disk
+) > OnlineFunction
+Diskpart /S OnlineFunction
+Echo.
+Echo Mounting...
+Echo.
+MountVol %DriveLetter% %DriveVolumeGUID%
+Echo Unlocking drive...
+Echo.
+Manage-BDE -Unlock D: -RecoveryPassword %BitLockerKey%
+Exit
